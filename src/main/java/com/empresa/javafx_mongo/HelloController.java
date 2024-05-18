@@ -7,61 +7,55 @@ import com.mongodb.client.MongoDatabase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import org.bson.Document;
+import org.bson.types.Decimal128;
+
+
 
 public class HelloController {
-
-    @FXML
-    private TextField nameTextField;
-
-    @FXML
-    private TextField emailTextField;
 
     @FXML
     private TableView<Datos> datosTable;
 
     @FXML
-    private TableColumn<Datos, String> nameColumn;
+    private TableColumn<Datos, String> idColumn;
 
     @FXML
-    private TableColumn<Datos, String> emailColumn;
+    private TableColumn<Datos, String> nombreColumn;
 
     @FXML
-    private TableColumn<Datos, String> IDColumn;
+    private TableColumn<Datos, Decimal128> precioColumn;
+
+    @FXML
+    private TableColumn<Datos, Integer> cantidadColumn;
+
+    @FXML
+    private ComboBox<String> categoriaComboBox;
 
     private MongoClient mongoClient;
     private MongoDatabase database;
 
+
     @FXML
     protected void onHelloButtonClick() {
         mongoClient = MongoClients.create("mongodb+srv://admin:admin@cluster0.znfctkt.mongodb.net/");
-        database = mongoClient.getDatabase("sample_mflix");
-        MongoCollection<Document> collection = database.getCollection("comments");
+        database = mongoClient.getDatabase("Tienda");
+        MongoCollection<Document> collection = database.getCollection("Productos");
 
         ObservableList<Datos> datosList = FXCollections.observableArrayList();
         for (Document doc : collection.find()) {
-            datosList.add(new Datos(doc.getObjectId("_id").toString(), doc.getString("name"), doc.getString("email"), doc.getString("text"), doc.getDate("date")));
+            datosList.add(new Datos(
+                    doc.getObjectId("_id"),
+                    doc.getString("nombre"),
+                    doc.get("precio", Decimal128.class),
+                    doc.getInteger("cantidad"),
+                    doc.getString("categoria")
+            ));
         }
 
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        IDColumn.setCellValueFactory(new PropertyValueFactory<>("_id"));
-
         datosTable.setItems(datosList);
-
-        String name = nameTextField.getText();
-        String email = emailTextField.getText();
-        Datos selectedDatos = datosTable.getSelectionModel().getSelectedItem();
-        String id = selectedDatos != null ? selectedDatos.get_id() : null;
-
-        Document newDatos = new Document("name", name)
-                .append("email", email)
-                .append("id", id);
-
-        collection.insertOne(newDatos);
     }
 }

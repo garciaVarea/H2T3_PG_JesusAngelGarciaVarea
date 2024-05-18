@@ -1,60 +1,61 @@
 package com.empresa.javafx_mongo;
 
-import java.util.Date;
+import org.bson.types.Decimal128;
+import org.bson.types.ObjectId;
 
 public class Datos {
-    private String _id;
-    private String name;
-    private String email;
-    private String text;
-    private Date date;
+    private ObjectId _id;
+    private String nombre;
+    private Decimal128 precio;
+    private int cantidad;
+    private String categoria;
 
-    public Datos(String _id, String name, String email, String text, Date date) {
+    public Datos(ObjectId _id, String nombre, Decimal128 precio, int cantidad, String categoria) {
         this._id = _id;
-        this.name = name;
-        this.email = email;
-        this.text = text;
-        this.date = date;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.cantidad = cantidad;
+        this.categoria = categoria;
     }
 
     // getters and setters
-    public String get_id() {
+    public ObjectId get_id() {
         return _id;
     }
 
-    public void set_id(String _id) {
+    public void set_id(ObjectId _id) {
         this._id = _id;
     }
 
-    public String getName() {
-        return name;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getEmail() {
-        return email;
+    public Decimal128 getPrecio() {
+        return precio;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPrecio(Decimal128 precio) {
+        this.precio = precio;
     }
 
-    public String getText() {
-        return text;
+    public int getCantidad() {
+        return cantidad;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
-    public Date getDate() {
-        return date;
+    public String getCategoria() {
+        return categoria;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 }
