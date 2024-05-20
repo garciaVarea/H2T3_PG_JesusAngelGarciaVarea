@@ -19,25 +19,70 @@ public class Service implements IService{
         mongoClient = MongoClients.create("mongodb+srv://admin:admin@cluster0.znfctkt.mongodb.net/");
         database = mongoClient.getDatabase("Tienda");
     }
+
+    public ObservableList<String> getOpciones() {
+        //Agregar más tarde funcionalidad para agregar y quitar categorías
+        MongoCollection<Document> collection = database.getCollection("Categorias");
+
+        ObservableList<String> opcionesList = FXCollections.observableArrayList();
+        for (Document doc : collection.find()) {
+            opcionesList.add(doc.getString("categoria"));
+        }
+
+        return opcionesList;
+    }
+
     @Override
     public ObservableList<Datos> getDatos() {
         MongoCollection<Document> collection = database.getCollection("Productos");
 
         ObservableList<Datos> datosList = FXCollections.observableArrayList();
-        for (Document doc : collection.find()) {
-            Integer cantidad = doc.getInteger("cantidad");
-            if (cantidad == null) {
-                cantidad = 0; // or any default value you want
+        try {
+            for (Document doc : collection.find()) {
+                Integer cantidad = doc.getInteger("cantidad");
+                if (cantidad == null) {
+                    cantidad = 0;
+                }
+                datosList.add(new Datos(
+                        doc.getObjectId("_id"),
+                        doc.getString("nombre"),
+                        doc.get("precio", Decimal128.class),
+                        cantidad,
+                        doc.getString("categoria")
+                ));
             }
-            datosList.add(new Datos(
-                    doc.getObjectId("_id"),
-                    doc.getString("nombre"),
-                    doc.get("precio", Decimal128.class),
-                    cantidad,
-                    doc.getString("categoria")
-            ));
+        } catch (Exception e) {
+            System.out.println("Error al obtener los datos: " + e.getMessage());
+            e.printStackTrace();
         }
 
         return datosList;
+    }
+    @Override
+    public void crearProducto(String nombre, String precioStr, String cantidadStr, String categoria) throws NumberFormatException {
+        MongoCollection<Document> collection = database.getCollection("Productos");
+
+        Decimal128 precio = null;
+        int cantidad = 0;
+
+        try {
+            precio = Decimal128.parse(precioStr);
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("Error en el precio: " + e.getMessage());
+        }
+
+        try {
+            cantidad = Integer.parseInt(cantidadStr);
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("Error en la cantidad: " + e.getMessage());
+        }
+
+        Document doc = new Document()
+                .append("nombre", nombre)
+                .append("precio", precio)
+                .append("cantidad", cantidad)
+                .append("categoria", categoria);
+
+        collection.insertOne(doc);
     }
 }

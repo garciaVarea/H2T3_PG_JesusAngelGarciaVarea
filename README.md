@@ -1,2 +1,3 @@
-# H2T3 CRUD MongoDB Atlass
-Jesús Ángel García Varea
+# mondo_getpost
+mongo getpost juanjo db
+0.17 - Lectura Escritura Mongo

@@ -2,17 +2,8 @@ package com.empresa.javafx_mongo.controller;
 
 import com.empresa.javafx_mongo.model.Datos;
 import com.empresa.javafx_mongo.service.impl.Service;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import org.bson.Document;
+import javafx.scene.control.*;
 import org.bson.types.Decimal128;
 
 public class HelloController {
@@ -33,14 +24,42 @@ public class HelloController {
     private TableColumn<Datos, Integer> cantidadColumn;
 
     @FXML
-    private ComboBox<String> categoriaComboBox;
+    private ComboBox<String> comboCategoria;
 
-    private MongoClient mongoClient;
-    private MongoDatabase database;
+    @FXML
+    private TextField txtNombre;
+
+    @FXML
+    private TextField txtPrecio;
+
+    @FXML
+    private TextField txtCantidad;
+
 
     @FXML
     public void initialize() {
         Service service = new Service();
         datosTable.setItems(service.getDatos());
+        comboCategoria.setItems(service.getOpciones());
+    }
+    @FXML
+    public void onBtnCreateClick() {
+        Service service = new Service();
+        String nombre = txtNombre.getText();
+        String precio = txtPrecio.getText();
+        String cantidad = txtCantidad.getText();
+        String categoria = comboCategoria.getValue();
+
+        try {
+            service.crearProducto(nombre, precio, cantidad, categoria);
+            datosTable.setItems(service.getDatos());
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Ventana de error");
+            alert.setHeaderText("Error al crear el producto");
+            alert.setContentText(e.getMessage());
+
+            alert.showAndWait();
+        }
     }
 }
