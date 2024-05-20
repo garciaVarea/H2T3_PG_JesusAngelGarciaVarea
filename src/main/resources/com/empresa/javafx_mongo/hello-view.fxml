@@ -69,7 +69,7 @@
                                   <TextField fx:id="txtPrecioUpdate" layoutX="25.0" layoutY="39.0" promptText="precio" />
                                   <Spinner fx:id="spinCantidad" prefHeight="25.0" prefWidth="67.0" />
                                   <ComboBox fx:id="comboCategoria1" layoutX="24.0" layoutY="104.0" prefWidth="150.0" promptText="Categoría" visibleRowCount="5" />
-                                  <Button onAction="#onBtnUpdateClick" mnemonicParsing="false"  style="-fx-background-color: #34cafc;" text="Actualizar">
+                                  <Button mnemonicParsing="false" onAction="#onBtnUpdateClick" style="-fx-background-color: #34cafc;" text="Actualizar">
                               <VBox.margin>
                                  <Insets left="65.0" top="15.0" />
                               </VBox.margin></Button>
@@ -77,6 +77,23 @@
                           </VBox>
                       </content>
                   </TitledPane>
+               <TitledPane expanded="false" layoutX="10.0" layoutY="35.0" prefWidth="200.0" text="Eliminar producto">
+                  <content>
+                     <VBox prefWidth="198.0">
+                         <children>
+                             <TextField fx:id="txtNombreDelete" editable="false" layoutX="25.0" layoutY="14.0" promptText="nombre" />
+                             <TextField fx:id="txtPrecioDelete" editable="false" layoutX="25.0" layoutY="39.0" promptText="precio" />
+                           <TextField fx:id="txtCantidadDelete" editable="false" layoutX="20.0" layoutY="45.0" promptText="cantidad" />
+                           <TextField fx:id="txtCategoriaDelete" editable="false" layoutX="20.0" layoutY="70.0" promptText="Categoría" />
+                             <Button mnemonicParsing="false" onAction="#onBtnDeleteClick" style="-fx-background-color: #34cafc;" text="Eliminar">
+                                 <VBox.margin>
+                                     <Insets left="65.0" top="15.0" />
+                                 </VBox.margin>
+                             </Button>
+                         </children>
+                     </VBox>
+                  </content>
+               </TitledPane>
               </children>
           </VBox>
       </children>

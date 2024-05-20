@@ -7,22 +7,12 @@ import javafx.scene.control.*;
 import org.bson.types.Decimal128;
 import org.bson.types.ObjectId;
 
+import java.util.Optional;
+
 public class HelloController {
 
     @FXML
     private TableView<Datos> datosTable;
-
-    @FXML
-    private TableColumn<Datos, String> idColumn;
-
-    @FXML
-    private TableColumn<Datos, String> nombreColumn;
-
-    @FXML
-    private TableColumn<Datos, Decimal128> precioColumn;
-
-    @FXML
-    private TableColumn<Datos, Integer> cantidadColumn;
 
     @FXML
     private ComboBox<String> comboCategoria;
@@ -51,6 +41,18 @@ public class HelloController {
     private ObjectId selectedId;
 
     @FXML
+    private TextField txtNombreDelete;
+
+    @FXML
+    private TextField txtPrecioDelete;
+
+    @FXML
+    private TextField txtCantidadDelete;
+
+    @FXML
+    private TextField txtCategoriaDelete;
+
+    @FXML
     public void initialize() {
         Service service = new Service();
         datosTable.setItems(service.getDatos());
@@ -60,19 +62,30 @@ public class HelloController {
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0);
         spinCantidad.setValueFactory(valueFactory);
 
-        // Add a listener to the table
+        // Set the table listener using the new method in HelloController
+        setTableListener(datosTable, txtNombreUpdate, txtPrecioUpdate, spinCantidad, comboCategoria1, txtNombreDelete, txtPrecioDelete, txtCantidadDelete, txtCategoriaDelete);
+    }
+
+    public void setTableListener(TableView<Datos> datosTable, TextField txtNombreUpdate, TextField txtPrecioUpdate, Spinner<Integer> spinCantidadUpdate, ComboBox<String> comboCategoriaUpdate, TextField txtNombreDelete, TextField txtPrecioDelete, TextField txtCantidadDelete, TextField txtCategoriaDelete) {
         datosTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 Datos datos = datosTable.getSelectionModel().getSelectedItem();
 
                 selectedId = datos.get_id();
+
                 txtNombreUpdate.setText(datos.getNombre());
                 txtPrecioUpdate.setText(datos.getPrecio().toString());
-                spinCantidad.getValueFactory().setValue(datos.getCantidad());
-                comboCategoria1.setValue(datos.getCategoria());
+                spinCantidadUpdate.getValueFactory().setValue(datos.getCantidad());
+                comboCategoriaUpdate.setValue(datos.getCategoria());
+
+                txtNombreDelete.setText(datos.getNombre());
+                txtPrecioDelete.setText(datos.getPrecio().toString());
+                txtCantidadDelete.setText(String.valueOf(datos.getCantidad()));
+                txtCategoriaDelete.setText(datos.getCategoria());
             }
         });
     }
+
     @FXML
     public void onBtnCreateClick() {
         Service service = new Service();
@@ -93,6 +106,7 @@ public class HelloController {
             alert.showAndWait();
         }
     }
+
     @FXML
     public void onBtnUpdateClick() {
         Service service = new Service();
@@ -111,6 +125,33 @@ public class HelloController {
             alert.setContentText(e.getMessage());
 
             alert.showAndWait();
+        }
+    }
+    @FXML
+    public void onBtnDeleteClick() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación de eliminación");
+        alert.setHeaderText("Estás a punto de eliminar un producto");
+        alert.setContentText("¿Estás seguro de que quieres continuar?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Service service = new Service();
+            try {
+                service.eliminarProducto(selectedId);
+                datosTable.setItems(service.getDatos());
+                txtNombreDelete.setText("");
+                txtPrecioDelete.setText("");
+                txtCantidadDelete.setText("");
+                txtCategoriaDelete.setText("");
+            } catch (Exception e) {
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Ventana de error");
+                errorAlert.setHeaderText("Error al eliminar el producto");
+                errorAlert.setContentText(e.getMessage());
+
+                errorAlert.showAndWait();
+            }
         }
     }
 }

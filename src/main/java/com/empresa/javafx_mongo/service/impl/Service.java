@@ -13,16 +13,17 @@ import org.bson.Document;
 import org.bson.types.Decimal128;
 import org.bson.types.ObjectId;
 
+
 public class Service implements IService{
     private MongoClient mongoClient;
     private MongoDatabase database;
 
-    public Service() {
+    public Service() {//--------------------------------------------------conexión a la base de datos
         mongoClient = MongoClients.create("mongodb+srv://admin:admin@cluster0.znfctkt.mongodb.net/");
         database = mongoClient.getDatabase("Tienda");
     }
 
-    public ObservableList<String> getOpciones() {
+    public ObservableList<String> getOpciones() {//--------------------------------------------------obtener las categorías
         MongoCollection<Document> collection = database.getCollection("Categorias");
 
         ObservableList<String> opcionesList = FXCollections.observableArrayList();
@@ -34,7 +35,7 @@ public class Service implements IService{
     }
 
     @Override
-    public ObservableList<Datos> getDatos() {
+    public ObservableList<Datos> getDatos() {//--------------------------------------------------obtener los datos para tabla
         MongoCollection<Document> collection = database.getCollection("Productos");
 
         ObservableList<Datos> datosList = FXCollections.observableArrayList();
@@ -59,7 +60,8 @@ public class Service implements IService{
 
         return datosList;
     }
-    @Override
+
+    @Override//--------------------------------------------------crear un producto
     public void crearProducto(String nombre, String precioStr, String cantidadStr, String categoria) throws NumberFormatException {
         MongoCollection<Document> collection = database.getCollection("Productos");
 
@@ -87,7 +89,8 @@ public class Service implements IService{
         collection.insertOne(doc);
     }
 
-    @Override
+
+    @Override//--------------------------------------------------actualizar un producto
     public void actualizarProducto(ObjectId id, String nombre, String precioStr, Integer cantidad, String categoria) throws NumberFormatException {
         MongoCollection<Document> collection = database.getCollection("Productos");
 
@@ -106,5 +109,10 @@ public class Service implements IService{
                 .append("categoria", categoria);
 
         collection.updateOne(Filters.eq("_id", id), new Document("$set", doc));
+    }
+
+    public void eliminarProducto(ObjectId id) {//--------------------------------------------------eliminar un producto
+        MongoCollection<Document> collection = database.getCollection("Productos");
+        collection.deleteOne(Filters.eq("_id", id));
     }
 }
