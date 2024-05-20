@@ -6,10 +6,12 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.bson.Document;
 import org.bson.types.Decimal128;
+import org.bson.types.ObjectId;
 
 public class Service implements IService{
     private MongoClient mongoClient;
@@ -21,7 +23,6 @@ public class Service implements IService{
     }
 
     public ObservableList<String> getOpciones() {
-        //Agregar más tarde funcionalidad para agregar y quitar categorías
         MongoCollection<Document> collection = database.getCollection("Categorias");
 
         ObservableList<String> opcionesList = FXCollections.observableArrayList();
@@ -84,5 +85,26 @@ public class Service implements IService{
                 .append("categoria", categoria);
 
         collection.insertOne(doc);
+    }
+
+    @Override
+    public void actualizarProducto(ObjectId id, String nombre, String precioStr, Integer cantidad, String categoria) throws NumberFormatException {
+        MongoCollection<Document> collection = database.getCollection("Productos");
+
+        Decimal128 precio = null;
+
+        try {
+            precio = Decimal128.parse(precioStr);
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("Error en el precio: " + e.getMessage());
+        }
+
+        Document doc = new Document()
+                .append("nombre", nombre)
+                .append("precio", precio)
+                .append("cantidad", cantidad)
+                .append("categoria", categoria);
+
+        collection.updateOne(Filters.eq("_id", id), new Document("$set", doc));
     }
 }

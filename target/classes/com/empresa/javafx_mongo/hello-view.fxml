@@ -53,7 +53,11 @@
                                   <TextField fx:id="txtPrecio" layoutX="25.0" layoutY="39.0" promptText="precio" />
                                   <TextField fx:id="txtCantidad" layoutX="25.0" layoutY="64.0" promptText="cantidad" />
                                   <ComboBox fx:id="comboCategoria" layoutX="24.0" layoutY="104.0" prefWidth="150.0" promptText="Categoría" visibleRowCount="5" />
-                                  <Button fx:id="btnCreate" mnemonicParsing="false" onAction="#onBtnCreateClick" text="Agregar" />                              </children>
+                                  <Button fx:id="btnCreate" mnemonicParsing="false" onAction="#onBtnCreateClick" style="-fx-background-color: #95d34e;" text="Agregar">
+                              <VBox.margin>
+                                 <Insets left="65.0" top="15.0" />
+                              </VBox.margin></Button>
+                              </children>
                           </VBox>
                       </content>
                   </TitledPane>
@@ -61,10 +65,14 @@
                       <content>
                           <VBox prefWidth="198.0">
                               <children>
-                                  <TextField layoutX="25.0" layoutY="14.0" promptText="nombre" />
-                                  <TextField layoutX="25.0" layoutY="39.0" promptText="precio" />
-                                  <TextField layoutX="25.0" layoutY="64.0" promptText="cantidad" />
+                                  <TextField fx:id="txtNombreUpdate" layoutX="25.0" layoutY="14.0" promptText="nombre" />
+                                  <TextField fx:id="txtPrecioUpdate" layoutX="25.0" layoutY="39.0" promptText="precio" />
+                                  <Spinner fx:id="spinCantidad" prefHeight="25.0" prefWidth="67.0" />
                                   <ComboBox fx:id="comboCategoria1" layoutX="24.0" layoutY="104.0" prefWidth="150.0" promptText="Categoría" visibleRowCount="5" />
+                                  <Button onAction="#onBtnUpdateClick" mnemonicParsing="false"  style="-fx-background-color: #34cafc;" text="Actualizar">
+                              <VBox.margin>
+                                 <Insets left="65.0" top="15.0" />
+                              </VBox.margin></Button>
                               </children>
                           </VBox>
                       </content>
