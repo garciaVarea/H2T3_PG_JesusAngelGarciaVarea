@@ -2,13 +2,16 @@ package com.empresa.javafx_mongo.controller;
 
 import com.empresa.javafx_mongo.model.Datos;
 import com.empresa.javafx_mongo.service.impl.Service;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import org.bson.types.ObjectId;
 import javafx.scene.control.Button;
 
+import java.util.List;
 import java.util.Optional;
 
 public class HelloController {
@@ -54,6 +57,14 @@ public class HelloController {
     @FXML
     private TextField txtCategoriaDelete;
 
+    @FXML
+    private TextField txtNuevaCategoria;
+
+    @FXML
+    private ComboBox<String> ComboCatDelCat;
+
+    @FXML
+    private TextField txtSearch;
 
 
     @FXML
@@ -69,6 +80,8 @@ public class HelloController {
         datosTable.setItems(service.getDatos());
         comboCategoria.setItems(service.getOpciones());
         comboCategoria1.setItems(service.getOpciones());
+        ComboCatDelCat.setItems(service.getOpciones());
+
 
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0);
         spinCantidad.setValueFactory(valueFactory);
@@ -77,6 +90,7 @@ public class HelloController {
         setTableListener(datosTable, txtNombreUpdate, txtPrecioUpdate, spinCantidad, comboCategoria1, txtNombreDelete, txtPrecioDelete, txtCantidadDelete, txtCategoriaDelete);
     }
 
+    // --------------------------------------------------------------------Evento click tabla
     public void setTableListener(TableView<Datos> datosTable, TextField txtNombreUpdate, TextField txtPrecioUpdate, Spinner<Integer> spinCantidadUpdate, ComboBox<String> comboCategoriaUpdate, TextField txtNombreDelete, TextField txtPrecioDelete, TextField txtCantidadDelete, TextField txtCategoriaDelete) {
         datosTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -98,7 +112,7 @@ public class HelloController {
     }
 
     @FXML
-    public void onBtnCreateClick() {
+    public void onBtnCreateClick() { //-------------------------------------------Crear un producto
         Service service = new Service();
         String nombre = txtNombre.getText();
         String precio = txtPrecio.getText();
@@ -119,7 +133,7 @@ public class HelloController {
     }
 
     @FXML
-    public void onBtnUpdateClick() {
+    public void onBtnUpdateClick() { //-------------------------------------------Actualizar un producto
         Service service = new Service();
         String nombre = txtNombreUpdate.getText();
         String precio = txtPrecioUpdate.getText();
@@ -139,7 +153,7 @@ public class HelloController {
         }
     }
     @FXML
-    public void onBtnDeleteClick() {
+    public void onBtnDeleteClick() { //-------------------------------------------Borrar un producto
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmación de eliminación");
         alert.setHeaderText("Estás a punto de eliminar un producto");
@@ -164,5 +178,50 @@ public class HelloController {
                 errorAlert.showAndWait();
             }
         }
+    }
+
+    public void onBtnAgregarCategoriaClick() { //----------------------------------Agregar una categoria
+        Service service = new Service();
+        String categoria = txtNuevaCategoria.getText();
+        service.crearCategoria(categoria);
+        comboCategoria.setItems(service.getOpciones());
+        comboCategoria1.setItems(service.getOpciones());
+        ComboCatDelCat.setItems(service.getOpciones());
+
+        txtNuevaCategoria.setText("");
+    }
+
+    public void onButtonClickBorrarCategoria() { //----------------------------------Borrar una categoria
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación de eliminación");
+        alert.setHeaderText("Estás a punto de eliminar una categoría");
+        alert.setContentText("¿Estás seguro de que quieres continuar?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Service service = new Service();
+            try {
+                String categoria = ComboCatDelCat.getValue();
+                service.borrarCategoria(categoria);
+                ComboCatDelCat.setItems(service.getOpciones());
+                datosTable.setItems(service.getDatos());
+
+            } catch (Exception e) {
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Ventana de error");
+                errorAlert.setHeaderText("Error al eliminar la categoría");
+                errorAlert.setContentText(e.getMessage());
+
+                errorAlert.showAndWait();
+            }
+        }
+    }
+
+    @FXML
+    public void onSearchKeyReleased(KeyEvent event) {
+        String searchText = txtSearch.getText();
+        Service service = new Service();
+        List<Datos> filteredData = service.getDatosFiltrados(searchText);
+        datosTable.setItems(FXCollections.observableArrayList(filteredData));
     }
 }

@@ -13,6 +13,9 @@ import org.bson.Document;
 import org.bson.types.Decimal128;
 import org.bson.types.ObjectId;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 public class Service implements IService{
     private MongoClient mongoClient;
@@ -61,7 +64,7 @@ public class Service implements IService{
         return datosList;
     }
 
-    @Override//--------------------------------------------------crear un producto
+    @Override //--------------------------------------------------crear un producto
     public void crearProducto(String nombre, String precioStr, String cantidadStr, String categoria) throws NumberFormatException {
         MongoCollection<Document> collection = database.getCollection("Productos");
 
@@ -89,8 +92,16 @@ public class Service implements IService{
         collection.insertOne(doc);
     }
 
+    public void crearCategoria(String categoria) {
+        MongoCollection<Document> collection = database.getCollection("Categorias");
 
-    @Override//--------------------------------------------------actualizar un producto
+        Document doc = new Document()
+                .append("categoria", categoria);
+
+        collection.insertOne(doc);
+    }
+
+    @Override //--------------------------------------------------actualizar un producto
     public void actualizarProducto(ObjectId id, String nombre, String precioStr, Integer cantidad, String categoria) throws NumberFormatException {
         MongoCollection<Document> collection = database.getCollection("Productos");
 
@@ -111,8 +122,29 @@ public class Service implements IService{
         collection.updateOne(Filters.eq("_id", id), new Document("$set", doc));
     }
 
-    public void eliminarProducto(ObjectId id) {//--------------------------------------------------eliminar un producto
+    public void eliminarProducto(ObjectId id) { //--------------------------------------------------eliminar un producto
         MongoCollection<Document> collection = database.getCollection("Productos");
         collection.deleteOne(Filters.eq("_id", id));
     }
+
+    public void eliminarProductosPorCategoria(String categoria) {
+        MongoCollection<Document> collection = database.getCollection("Productos");
+        collection.deleteMany(Filters.eq("categoria", categoria));
+    }
+
+    public void borrarCategoria(String categoria) {
+        eliminarProductosPorCategoria(categoria);
+
+        MongoCollection<Document> collection = database.getCollection("Categorias");
+        collection.deleteOne(Filters.eq("categoria", categoria));
+    }
+
+    @Override
+    public List<Datos> getDatosFiltrados(String searchText) {//--------------------------------------------------filtrar los datos
+        List<Datos> allDatos = getDatos();
+        return allDatos.stream()
+                .filter(dato -> dato.getNombre().toLowerCase().contains(searchText.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
 }
