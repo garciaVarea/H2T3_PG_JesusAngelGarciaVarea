@@ -1,0 +1,138 @@
+/* Estilo general */
+.root {
+    -fx-background-color: #f4f7f9;
+    -fx-font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Estilo para los TitledPane */
+.titled-pane {
+    -fx-background-color: #00cbebcc;
+    -fx-text-fill: white;
+    -fx-padding: 10px;
+    -fx-height: 100px;
+    -fx-border-color: black;
+    -fx-border-width: 1px 1px 0 0;
+}
+
+.titled-pane > .title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
+    -fx-padding: 10px 20px;
+
+}
+
+.titled-pane > .content {
+    -fx-background-color: #ecf0f1;
+    -fx-padding: 20px;
+
+}
+
+/* Efecto de onda al pasar el ratón */
+.titled-pane:hover {
+    -fx-background-color: linear-gradient(to bottom right, #00cbebcc, #00fff6);
+    -fx-cursor: hand;
+}
+
+/* Estilo para los botones */
+.button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px 20px;
+    -fx-font-size: 14px;
+}
+
+.button:hover {
+    -fx-background-color: #2980b9;
+}
+
+/* Estilo para los TextField */
+.text-field {
+    -jfx-unfocus-color: #3498db;
+    -jfx-focus-color: #3498db;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px;
+}
+
+/* Estilo para los TextField */
+.text-field {
+    -jfx-unfocus-color: #3498db;
+    -jfx-focus-color: #3498db;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px;
+}
+
+/* Estilo para los ComboBox */
+.combo-box {
+    -jfx-focus-color: #3498db;
+    -jfx-unfocus-color: #3498db;
+    -fx-background-radius: 5px;
+}
+
+/* Estilo para los TableView */
+.table-view {
+    -fx-background-color: #ffffff; /* Define el color de fondo de la tabla */
+    -fx-border-radius: 5px; /* Define el radio del borde de la tabla, lo que da a la tabla bordes redondeados */
+
+}
+
+.table-view .column-header {
+    -fx-background-color: #3498db; /* Define el color de fondo de los encabezados de las columnas de la tabla */
+    -fx-border-color: #2980b9; /* Define el color del borde de los encabezados de las columnas */
+    -fx-border-width: 0 0 2px 0; /* Define el ancho del borde de los encabezados de las columnas */
+    -fx-padding: 10px; /* Agrega padding a los encabezados */
+    -fx-border-radius: 5px 5px 0 0; /* Agrega bordes redondeados solo en la parte superior */
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white; /* Define el color del texto de los encabezados de las columnas de la tabla */
+    -fx-font-size: 14px; /* Define el tamaño del texto de los encabezados */
+    -fx-font-weight: bold; /* Define el peso del texto de los encabezados */
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: #ecf0f1; /* Define el color de fondo de las celdas de la tabla */
+    -fx-border-color: #bdc3c7; /* Define el color del borde de las celdas */
+    -fx-border-width: 0 0 1px 0; /* Define el ancho del borde de las celdas */
+    -fx-padding: 10px; /* Agrega padding a las celdas */
+    -fx-font-size: 13px; /* Define el tamaño del texto de las celdas */
+    -fx-text-fill: #2c3e50; /* Define el color del texto de las celdas */
+}
+
+.table-view .table-row-cell:filled:focused, .table-view .table-row-cell:filled:hover {
+    -fx-background-color: #dfe6e9; /* Define el color de fondo de las celdas de la tabla cuando están enfocadas (seleccionadas) o cuando el cursor del ratón pasa sobre ellas */
+    -fx-border-color: #3498db; /* Define el color del borde cuando está seleccionado o en hover */
+}
+
+.table-view .table-row-cell:even {
+    -fx-background-color: #ffffff; /* Define el color de fondo para las filas pares */
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: #f7f9f9; /* Define el color de fondo para las filas impares */
+}
+
+
+/* Resto del archivo CSS... */
+
+/* Estilo para los Label */
+.label {
+    -fx-text-fill: #2c3e50;
+}
+#headerPane {
+    -fx-background-color: #2182A4;
+    -fx-border-color: black;
+    -fx-border-width: 0 0 4px 0;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+#leftContainer {
+    -fx-background-color: #00cbebcc;
+    -fx-border-color: black;
+    -fx-border-width: 0 1px 0 0;
+}
+#panelPadre {
+    -fx-background-color: #ffffff;
+
+}

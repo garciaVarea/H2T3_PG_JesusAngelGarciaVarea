@@ -16,4 +16,7 @@ public interface IService {
     void crearCategoria(String categoria);
     void borrarCategoria(String categoria);
     List<Datos> getDatosFiltrados(String searchText);
+    List<Datos> getDatosPorCategoria(String categoria);
+    boolean productoExiste(String nombre);
+    boolean camposValidos(String nombre, String precio, String cantidad, String categoria);
 }

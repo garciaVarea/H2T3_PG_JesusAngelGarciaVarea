@@ -5,11 +5,9 @@ import com.empresa.javafx_mongo.service.impl.Service;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import org.bson.types.ObjectId;
-import javafx.scene.control.Button;
 
 import java.util.List;
 import java.util.Optional;
@@ -66,21 +64,25 @@ public class HelloController {
     @FXML
     private TextField txtSearch;
 
+    @FXML
+    private ComboBox<String> filtroCategoria;
 
     @FXML
-    private ImageView searchImageView;
+    private Pane headerPane;
 
     @FXML
     public void initialize() {
 
-        Image searchImage = new Image(getClass().getResource("/img/lupa1.png").toExternalForm());
-        searchImageView.setImage(searchImage);
+        headerPane.toFront();
 
         Service service = new Service();
         datosTable.setItems(service.getDatos());
+        datosTable.getSelectionModel().clearSelection();
         comboCategoria.setItems(service.getOpciones());
         comboCategoria1.setItems(service.getOpciones());
         ComboCatDelCat.setItems(service.getOpciones());
+        filtroCategoria.setItems(service.getOpciones());
+        filtroCategoria.getItems().add(0,"Todas");
 
 
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0);
@@ -88,6 +90,7 @@ public class HelloController {
 
         // Set the table listener using the new method in HelloController
         setTableListener(datosTable, txtNombreUpdate, txtPrecioUpdate, spinCantidad, comboCategoria1, txtNombreDelete, txtPrecioDelete, txtCantidadDelete, txtCategoriaDelete);
+        setFiltroCategoriaListener();
     }
 
     // --------------------------------------------------------------------Evento click tabla
@@ -112,23 +115,50 @@ public class HelloController {
     }
 
     @FXML
-    public void onBtnCreateClick() { //-------------------------------------------Crear un producto
+    public void onBtnCreateClick() {
         Service service = new Service();
         String nombre = txtNombre.getText();
         String precio = txtPrecio.getText();
         String cantidad = txtCantidad.getText();
         String categoria = comboCategoria.getValue();
 
-        try {
-            service.crearProducto(nombre, precio, cantidad, categoria);
-            datosTable.setItems(service.getDatos());
-        } catch (NumberFormatException e) {
+        // Verificar si alguno de los campos está vacío
+        if (!service.camposValidos(nombre, precio, cantidad, categoria)) {
+            // Mostrar una ventana de alerta si alguno de los campos está vacío
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Ventana de error");
-            alert.setHeaderText("Error al crear el producto");
-            alert.setContentText(e.getMessage());
-
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Todos los campos deben estar llenos");
             alert.showAndWait();
+        } else {
+            // Verificar si el producto ya existe
+            boolean productExists = service.productoExiste(nombre);
+
+            if (productExists) {
+                // Mostrar una ventana de alerta si el producto ya existe
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Ya tiene este producto en su inventario");
+                alert.showAndWait();
+            } else {
+                // Crear el producto si no existe
+                try {
+                    service.crearProducto(nombre, precio, cantidad, categoria);
+                    datosTable.setItems(service.getDatos());
+                    txtNombre.setText("");
+                    txtPrecio.setText("");
+                    txtCantidad.setText("");
+                    comboCategoria.setValue("");
+                } catch (NumberFormatException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Ventana de error");
+                    alert.setHeaderText("Error al crear el producto");
+                    alert.setContentText(e.getMessage());
+
+                    alert.showAndWait();
+                }
+            }
         }
     }
 
@@ -223,5 +253,16 @@ public class HelloController {
         Service service = new Service();
         List<Datos> filteredData = service.getDatosFiltrados(searchText);
         datosTable.setItems(FXCollections.observableArrayList(filteredData));
+    }
+
+    private void setFiltroCategoriaListener() {
+        filtroCategoria.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            Service service = new Service();
+            if (newValue.equals("Todas")) {
+                datosTable.setItems(service.getDatos());
+            } else {
+                datosTable.setItems(FXCollections.observableArrayList(service.getDatosPorCategoria(newValue)));
+            }
+        });
     }
 }

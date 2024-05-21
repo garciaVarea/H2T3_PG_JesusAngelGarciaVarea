@@ -13,6 +13,7 @@ import org.bson.Document;
 import org.bson.types.Decimal128;
 import org.bson.types.ObjectId;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -147,4 +148,35 @@ public class Service implements IService{
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<Datos> getDatosPorCategoria(String categoria) {
+        MongoCollection<Document> collection = database.getCollection("Productos");
+        List<Datos> datosList = new ArrayList<>();
+        for (Document doc : collection.find(Filters.eq("categoria", categoria))) {
+            Integer cantidad = doc.getInteger("cantidad");
+            if (cantidad == null) {
+                cantidad = 0;
+            }
+            datosList.add(new Datos(
+                    doc.getObjectId("_id"),
+                    doc.getString("nombre"),
+                    doc.get("precio", Decimal128.class),
+                    cantidad,
+                    doc.getString("categoria")
+            ));
+        }
+        return datosList;
+    }
+
+    @Override
+    public boolean productoExiste(String nombre) {
+        MongoCollection<Document> collection = database.getCollection("Productos");
+        Document existingProduct = collection.find(Filters.eq("nombre", nombre)).first();
+        return existingProduct != null;
+    }
+
+    @Override
+    public boolean camposValidos(String nombre, String precio, String cantidad, String categoria) {
+        return !(nombre.isEmpty() || precio.isEmpty() || cantidad.isEmpty() || categoria == null || categoria.isEmpty());
+    }
 }
