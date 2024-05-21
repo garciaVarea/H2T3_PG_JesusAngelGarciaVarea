@@ -15,7 +15,7 @@ public class HelloApplication extends Application {
         Parent root = fxmlLoader.load();
 
         Scene scene = new Scene(root);
-        stage.setTitle("Hello!");
+        stage.setTitle("Gestión de productos");
         stage.setScene(scene);
         stage.sizeToScene(); // Ajusta el tamaño del escenario al tamaño de la escena
         stage.show();

@@ -3,6 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="991.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.empresa.javafx_mongo.controller.HelloController">
@@ -43,7 +44,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
               </columnResizePolicy>
           </TableView>
-          <VBox layoutX="14.0" layoutY="25.0" prefHeight="491.0" prefWidth="219.0">
+          <VBox layoutY="64.0" prefHeight="122.0" prefWidth="229.0">
               <children>
                   <TitledPane expanded="false" prefWidth="200.0" text="Agregar producto">
                       <content>
@@ -85,7 +86,7 @@
                              <TextField fx:id="txtPrecioDelete" editable="false" layoutX="25.0" layoutY="39.0" promptText="precio" />
                            <TextField fx:id="txtCantidadDelete" editable="false" layoutX="20.0" layoutY="45.0" promptText="cantidad" />
                            <TextField fx:id="txtCategoriaDelete" editable="false" layoutX="20.0" layoutY="70.0" promptText="Categoría" />
-                             <Button mnemonicParsing="false" onAction="#onBtnDeleteClick" style="-fx-background-color: #34cafc;" text="Eliminar">
+                             <Button mnemonicParsing="false" onAction="#onBtnDeleteClick" style="-fx-background-color: #ff6666;" text="Eliminar">
                                  <VBox.margin>
                                      <Insets left="65.0" top="15.0" />
                                  </VBox.margin>
@@ -94,9 +95,64 @@
                      </VBox>
                   </content>
                </TitledPane>
+               <TitledPane expanded="false" layoutX="10.0" layoutY="60.0" prefWidth="200.0" text="Gestionar categorías">
+                  <content>
+                     <VBox prefWidth="198.0">
+                        <children>
+                           <VBox prefHeight="243.0" prefWidth="188.0">
+                              <children>
+                                 <VBox prefHeight="116.0" prefWidth="188.0" style="-fx-border-color: black; -fx-border-radius: 4; -fx-border-style: dashed;">
+                                    <children>
+                                       <Label text="Agregar nueva categoría">
+                                          <VBox.margin>
+                                             <Insets left="5.0" top="5.0" />
+                                          </VBox.margin>
+                                       </Label>
+                                       <TextField promptText="Categoría">
+                                          <VBox.margin>
+                                             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                          </VBox.margin>
+                                       </TextField>
+                                       <Button mnemonicParsing="false" text="Agregar">
+                                          <VBox.margin>
+                                             <Insets bottom="10.0" left="65.0" />
+                                          </VBox.margin>
+                                       </Button>
+                                    </children>
+                                 </VBox>
+                                 <VBox prefHeight="127.0" prefWidth="188.0" style="-fx-border-color: black; -fx-border-radius: 4; -fx-border-style: dashed;">
+                                    <children>
+                                       <Label text="Borrar categoría">
+                                          <VBox.margin>
+                                             <Insets left="5.0" top="5.0" />
+                                          </VBox.margin>
+                                       </Label>
+                                       <ComboBox fx:id="ComboCatDelCat" prefWidth="150.0" promptText="Categoría">
+                                          <VBox.margin>
+                                             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                          </VBox.margin>
+                                       </ComboBox>
+                                       <Button mnemonicParsing="false" text="Eliminar">
+                                          <VBox.margin>
+                                             <Insets bottom="10.0" left="65.0" />
+                                          </VBox.margin>
+                                       </Button>
+                                    </children>
+                                 </VBox>
+                              </children>
+                           </VBox>
+                        </children>
+                     </VBox>
+                  </content>
+               </TitledPane>
               </children>
           </VBox>
+         <TextField layoutY="25.0" prefHeight="25.0" prefWidth="199.0" promptText="_" />
+         <Button layoutX="202.0" layoutY="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="28.0">
+          <graphic>
+              <ImageView fx:id="searchImageView" fitHeight="17" fitWidth="17" />
+          </graphic>
+            </Button>
       </children>
    </Pane>
-    <!--<Button onAction="#onHelloButtonClick" text="Cargar Datos!" />-->
 </VBox>

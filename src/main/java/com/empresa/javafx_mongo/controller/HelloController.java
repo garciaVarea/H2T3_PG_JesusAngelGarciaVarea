@@ -4,8 +4,10 @@ import com.empresa.javafx_mongo.model.Datos;
 import com.empresa.javafx_mongo.service.impl.Service;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import org.bson.types.Decimal128;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.bson.types.ObjectId;
+import javafx.scene.control.Button;
 
 import java.util.Optional;
 
@@ -52,8 +54,17 @@ public class HelloController {
     @FXML
     private TextField txtCategoriaDelete;
 
+
+
+    @FXML
+    private ImageView searchImageView;
+
     @FXML
     public void initialize() {
+
+        Image searchImage = new Image(getClass().getResource("/img/lupa1.png").toExternalForm());
+        searchImageView.setImage(searchImage);
+
         Service service = new Service();
         datosTable.setItems(service.getDatos());
         comboCategoria.setItems(service.getOpciones());
