@@ -47,13 +47,6 @@
     -fx-background-color: #2980b9;
 }
 
-/* Estilo para los TextField */
-.text-field {
-    -jfx-unfocus-color: #3498db;
-    -jfx-focus-color: #3498db;
-    -fx-background-radius: 5px;
-    -fx-padding: 10px;
-}
 
 /* Estilo para los TextField */
 .text-field {
@@ -62,12 +55,15 @@
     -fx-background-radius: 5px;
     -fx-padding: 10px;
 }
+
+
 
 /* Estilo para los ComboBox */
 .combo-box {
     -jfx-focus-color: #3498db;
     -jfx-unfocus-color: #3498db;
     -fx-background-radius: 5px;
+    -fx-padding: 7px;
 }
 
 /* Estilo para los TableView */
@@ -113,26 +109,48 @@
     -fx-background-color: #f7f9f9; /* Define el color de fondo para las filas impares */
 }
 
-
-/* Resto del archivo CSS... */
-
 /* Estilo para los Label */
 .label {
     -fx-text-fill: #2c3e50;
 }
+
 #headerPane {
     -fx-background-color: #2182A4;
     -fx-border-color: black;
     -fx-border-width: 0 0 4px 0;
-    -fx-font-size: 16px;
     -fx-font-weight: bold;
 }
+
 #leftContainer {
     -fx-background-color: #00cbebcc;
     -fx-border-color: black;
     -fx-border-width: 0 1px 0 0;
 }
+
 #panelPadre {
     -fx-background-color: #ffffff;
+}
 
+#labelSearch {
+    -fx-font-size: 16px;
+}
+
+#labelFilter {
+    -fx-font-size: 16px;
+}
+
+.table-cell {
+    -fx-alignment: CENTER-RIGHT;
+}
+
+#categC {
+    -fx-alignment: CENTER-LEFT;
+}
+
+#nombreC {
+    -fx-alignment: CENTER-LEFT;
+}
+
+#idC {
+    -fx-alignment: CENTER-LEFT;
 }

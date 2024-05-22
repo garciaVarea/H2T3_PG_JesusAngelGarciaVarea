@@ -65,10 +65,11 @@ public class HelloController {
     private TextField txtSearch;
 
     @FXML
-    private ComboBox<String> filtroCategoria;
+    private Pane headerPane;
 
     @FXML
-    private Pane headerPane;
+    private ComboBox<String> filtroCategoria;
+
 
     @FXML
     public void initialize() {
