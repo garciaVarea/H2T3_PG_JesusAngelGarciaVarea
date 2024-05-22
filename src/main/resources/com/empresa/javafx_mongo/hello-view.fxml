@@ -6,14 +6,15 @@
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="655.0" prefWidth="991.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.empresa.javafx_mongo.controller.HelloController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="655.0" prefWidth="991.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
     <!-- link de hello-view.css -->
     <stylesheets>
         <URL value="@hello-view.css" />
     </stylesheets>
     <AnchorPane fx:id="panelPadre" prefHeight="655.0" prefWidth="991.0" VBox.vgrow="ALWAYS">
         <children>
-            <TableView fx:id="datosTable" layoutX="255.0" layoutY="71.0" prefHeight="584.0" prefWidth="738.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="255.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="71.0" VBox.vgrow="ALWAYS">                <columns>
+            <TableView fx:id="datosTable" layoutX="255.0" layoutY="71.0" prefHeight="584.0" prefWidth="738.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="255.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="71.0" VBox.vgrow="ALWAYS">
+                <columns>
                     <TableColumn id="idC" fx:id="idColumn" prefWidth="217.0" text="ID">
                         <cellValueFactory>
                             <PropertyValueFactory property="_id" />

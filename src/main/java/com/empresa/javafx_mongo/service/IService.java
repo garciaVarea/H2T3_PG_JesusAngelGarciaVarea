@@ -2,7 +2,7 @@ package com.empresa.javafx_mongo.service;
 
 import com.empresa.javafx_mongo.model.Datos;
 import javafx.collections.ObservableList;
-
+import javafx.scene.image.ImageView;
 import org.bson.types.ObjectId;
 
 import java.util.List;

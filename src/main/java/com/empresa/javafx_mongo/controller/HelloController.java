@@ -1,13 +1,14 @@
 package com.empresa.javafx_mongo.controller;
 
 import com.empresa.javafx_mongo.model.Datos;
-import com.empresa.javafx_mongo.service.impl.Service;
+import com.empresa.javafx_mongo.service.IService;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import org.bson.types.ObjectId;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -70,13 +71,19 @@ public class HelloController {
     @FXML
     private ComboBox<String> filtroCategoria;
 
+    private IService service;
+
+    public HelloController(IService service) {
+        this.service = service;
+    }
+
+
 
     @FXML
     public void initialize() {
 
         headerPane.toFront();
 
-        Service service = new Service();
         datosTable.setItems(service.getDatos());
         datosTable.getSelectionModel().clearSelection();
         comboCategoria.setItems(service.getOpciones());
@@ -117,7 +124,6 @@ public class HelloController {
 
     @FXML
     public void onBtnCreateClick() {
-        Service service = new Service();
         String nombre = txtNombre.getText();
         String precio = txtPrecio.getText();
         String cantidad = txtCantidad.getText();
@@ -165,7 +171,6 @@ public class HelloController {
 
     @FXML
     public void onBtnUpdateClick() { //-------------------------------------------Actualizar un producto
-        Service service = new Service();
         String nombre = txtNombreUpdate.getText();
         String precio = txtPrecioUpdate.getText();
         Integer cantidad = spinCantidad.getValueFactory().getValue();
@@ -192,7 +197,6 @@ public class HelloController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Service service = new Service();
             try {
                 service.eliminarProducto(selectedId);
                 datosTable.setItems(service.getDatos());
@@ -212,7 +216,6 @@ public class HelloController {
     }
 
     public void onBtnAgregarCategoriaClick() { //----------------------------------Agregar una categoria
-        Service service = new Service();
         String categoria = txtNuevaCategoria.getText();
         service.crearCategoria(categoria);
         comboCategoria.setItems(service.getOpciones());
@@ -230,11 +233,12 @@ public class HelloController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Service service = new Service();
             try {
                 String categoria = ComboCatDelCat.getValue();
                 service.borrarCategoria(categoria);
                 ComboCatDelCat.setItems(service.getOpciones());
+                comboCategoria.setItems(service.getOpciones());
+                comboCategoria1.setItems(service.getOpciones());
                 datosTable.setItems(service.getDatos());
 
             } catch (Exception e) {
@@ -249,16 +253,14 @@ public class HelloController {
     }
 
     @FXML
-    public void onSearchKeyReleased(KeyEvent event) {
+    public void onSearchKeyReleased(KeyEvent event) { //----------------------------------Buscar un producto
         String searchText = txtSearch.getText();
-        Service service = new Service();
         List<Datos> filteredData = service.getDatosFiltrados(searchText);
         datosTable.setItems(FXCollections.observableArrayList(filteredData));
     }
 
-    private void setFiltroCategoriaListener() {
+    private void setFiltroCategoriaListener() { //----------------------------------Filtrar por categoría
         filtroCategoria.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
-            Service service = new Service();
             if (newValue.equals("Todas")) {
                 datosTable.setItems(service.getDatos());
             } else {

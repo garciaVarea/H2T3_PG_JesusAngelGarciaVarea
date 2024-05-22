@@ -9,6 +9,8 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.bson.Document;
 import org.bson.types.Decimal128;
 import org.bson.types.ObjectId;
@@ -21,9 +23,17 @@ import java.util.stream.Collectors;
 public class Service implements IService{
     private MongoClient mongoClient;
     private MongoDatabase database;
+    private String username;
+    private String password;
 
-    public Service() {//--------------------------------------------------conexión a la base de datos
-        mongoClient = MongoClients.create("mongodb+srv://admin:admin@cluster0.znfctkt.mongodb.net/");
+    public Service(String username, String password) {
+        this.username = username;
+        this.password = password;
+        connectToDatabase();
+    }
+    private void connectToDatabase() {
+        String conexion  = "mongodb+srv://" + username + ":" + password + "@cluster0.znfctkt.mongodb.net/";
+        mongoClient = MongoClients.create(conexion);
         database = mongoClient.getDatabase("Tienda");
     }
 
@@ -179,4 +189,5 @@ public class Service implements IService{
     public boolean camposValidos(String nombre, String precio, String cantidad, String categoria) {
         return !(nombre.isEmpty() || precio.isEmpty() || cantidad.isEmpty() || categoria == null || categoria.isEmpty());
     }
+
 }
