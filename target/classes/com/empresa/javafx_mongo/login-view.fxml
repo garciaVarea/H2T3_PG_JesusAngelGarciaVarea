@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="286.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.empresa.javafx_mongo.controller.LoginController">
+    <stylesheets>
+        <URL value="@hello-view.css" />
+    </stylesheets>
+    <children>
+      <VBox fx:id="loginHeader" alignment="CENTER" prefHeight="57.0" prefWidth="271.0">
+         <children>
+              <Label alignment="CENTER" contentDisplay="CENTER" text="Login" textAlignment="CENTER" textFill="WHITE" />
+         </children>
+      </VBox>
+        <TextField fx:id="usernameField" promptText="Usuario">
+         <VBox.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </VBox.margin></TextField>
+        <PasswordField fx:id="passwordField" promptText="Contraseña">
+         <VBox.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" />
+         </VBox.margin></PasswordField>
+        <Label fx:id="errorMessage" textFill="RED">
+         <VBox.margin>
+            <Insets bottom="20.0" />
+         </VBox.margin></Label>
+        <Button fx:id="loginButton" onAction="#handleLoginButtonAction" text="Login">
+         <VBox.margin>
+            <Insets bottom="20.0" />
+         </VBox.margin></Button>
+    </children>
+</VBox>

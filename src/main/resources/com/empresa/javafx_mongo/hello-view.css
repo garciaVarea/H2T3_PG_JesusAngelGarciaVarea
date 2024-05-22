@@ -154,3 +154,10 @@
 #idC {
     -fx-alignment: CENTER-LEFT;
 }
+
+#loginHeader {
+    -fx-background-color: #00cbebcc;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}

@@ -13,7 +13,7 @@
     </stylesheets>
     <AnchorPane fx:id="panelPadre" prefHeight="655.0" prefWidth="991.0" VBox.vgrow="ALWAYS">
         <children>
-            <TableView fx:id="datosTable" layoutX="255.0" layoutY="71.0" prefHeight="586.0" prefWidth="737.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="255.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="71.0" VBox.vgrow="ALWAYS">                <columns>
+            <TableView fx:id="datosTable" layoutX="255.0" layoutY="71.0" prefHeight="584.0" prefWidth="738.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="255.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="71.0" VBox.vgrow="ALWAYS">                <columns>
                     <TableColumn id="idC" fx:id="idColumn" prefWidth="217.0" text="ID">
                         <cellValueFactory>
                             <PropertyValueFactory property="_id" />
@@ -53,7 +53,7 @@
                     <Label fx:id="labelFilter" layoutX="639.0" layoutY="30.0" text="Filtro por categorías:" />
                 </children>
             </Pane>
-            <Pane fx:id="leftContainer" layoutX="-3.0" layoutY="56.0" prefHeight="602.0" prefWidth="264.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="56.0" VBox.vgrow="ALWAYS">
+            <Pane fx:id="leftContainer" layoutX="-3.0" layoutY="71.0" prefHeight="584.0" prefWidth="264.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="56.0" VBox.vgrow="ALWAYS">
                 <children>
                     <VBox layoutY="14.0" prefHeight="284.0" prefWidth="264.0" VBox.vgrow="ALWAYS">
                         <children>
