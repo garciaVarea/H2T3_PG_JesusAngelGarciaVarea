@@ -9,8 +9,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.Alert;
 import org.bson.Document;
 import org.bson.types.Decimal128;
 import org.bson.types.ObjectId;
@@ -29,9 +28,17 @@ public class Service implements IService{
     public Service(String username, String password) {
         this.username = username;
         this.password = password;
-        connectToDatabase();
+        try {
+            connectToDatabase();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Error al conectar a la base de datos: " + e.getMessage());
+            alert.showAndWait();
+        }
     }
-    private void connectToDatabase() {
+    private void connectToDatabase() throws Exception {
         String conexion  = "mongodb+srv://" + username + ":" + password + "@cluster0.znfctkt.mongodb.net/";
         mongoClient = MongoClients.create(conexion);
         database = mongoClient.getDatabase("Tienda");
